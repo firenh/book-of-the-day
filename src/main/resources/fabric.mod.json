@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "book_of_the_day",
+  "version": "${version}",
+
+  "name": "Book of the Day",
+  "description": "Librarian Villagers always have a different book trade each time they restock.",
+  "authors": [
+    "FireNH"
+  ],
+  "contact": {
+    "homepage": "*",
+    "sources": "*"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/book_of_the_day/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fireopal.bookoftheday.BookOfTheDay"
+    ]
+  },
+  "mixins": [
+    "book_of_the_day.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+
+  "suggests": {
+    "another-mod": "*"
+  }
+}
