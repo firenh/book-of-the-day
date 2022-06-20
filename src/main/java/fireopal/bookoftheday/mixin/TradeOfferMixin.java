@@ -8,9 +8,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.TradeOffer;
+import net.minecraft.util.math.random.Random;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,18 +35,18 @@ public class TradeOfferMixin {
 
 	@Inject(at = @At("HEAD"), method = "resetUses()V")
 	private void resetUses(CallbackInfo info) {
-		Random random = new Random();
+		Random random = Random.create();
 
 		if (sellItem.isOf(Items.ENCHANTED_BOOK) 
 			&& ((uses > 0 && random.nextFloat() <= CONFIG.chance_to_reset_when_traded_with) 
 				|| random.nextFloat() <= CONFIG.chance_to_reset_when_not_traded_with)
 			) {
 
-			List<Enchantment> list = (List<Enchantment>)Registry.ENCHANTMENT.stream()
+			List<Enchantment> list = Registry.ENCHANTMENT.stream()
 				.filter(Enchantment::isAvailableForEnchantedBookOffer)
 				.collect(Collectors.toList());
 
-			Enchantment enchantment = (Enchantment)list.get(random.nextInt(list.size()));
+			Enchantment enchantment = list.get(random.nextInt(list.size()));
 			int level = MathHelper.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
 
 			sellItem = EnchantedBookItem.forEnchantment(new EnchantmentLevelEntry(enchantment, level));
